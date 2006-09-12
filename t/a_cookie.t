@@ -299,9 +299,10 @@ print "cookie missing\nnot "
 ## test 26 - 28	test fetch
 my @keys = qw(path domain secure);
 foreach (@keys) {
+  my $rv = eval "\$cookies->{tc2}->$_";
   my $cv = $tc2{"-$_"} || '';
   print "bad value for tc2 -$_ : $cv\nnot "
-	unless $cookies->{tc2}->$_ eq $cv;
+	unless $rv eq $cv;
   &ok;
 }
 
@@ -333,8 +334,9 @@ foreach(@keys) {
 }
 $count = $start;
 foreach(@keys) {
-  print "results:  ",$cookies->{tc2}->$_, "\n   ne\nexpected: ",$count,"\nnot "
-	unless $cookies->{tc2}->$_ == ++$count;
+  my $rv = eval "\$cookies->{tc2}->$_";
+  print "results:  $rv\n   ne\nexpected: ",$count,"\nnot "
+	unless $rv == ++$count;
   &ok;
 }
 # test 35	put to expires
@@ -370,8 +372,9 @@ print "failed to change name\nnot "
 pop @keys;	# remove 'expires'
 $count = $start;
 foreach(@keys) {
-  print "results:  ",$cookies->{newname}->$_, "\n   ne\nexpected: ",$start,"\nnot "
-        unless $cookies->{newname}->$_ == ++$count;
+  my $rv = eval "\$cookies->{newname}->$_";
+  print "results:  $rv\n   ne\nexpected: ",$start,"\nnot "
+        unless $rv == ++$count;
   &ok;
 }
 
